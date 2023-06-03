@@ -48,8 +48,8 @@ function App() {
       />
       <ToastContainer position="top-center" />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/detail/:id" element={<Detail setActive={setActive}/>} />
+        <Route path="/" element={<Home setActive={setActive} user={user} />} />
+        <Route path="/detail/:id" element={<Detail setActive={setActive} />} />
         <Route
           path="/create"
           element={
@@ -58,7 +58,9 @@ function App() {
         />
         <Route
           path="/update/:id"
-          element={user?.uid ? <AddEditBlog user={user} /> : <Navigate to="/" />}
+          element={
+            user?.uid ? <AddEditBlog user={user} /> : <Navigate to="/" />
+          }
         />
         <Route path="/about" element={<About />} />
         <Route path="/auth" element={<Auth setActive={setActive} />} />
