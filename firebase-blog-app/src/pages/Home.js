@@ -1,4 +1,4 @@
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import BlogSection from "../components/BlogSection";
@@ -31,6 +31,18 @@ const Home = ({ setActive, user }) => {
   if (loading) {
     return <Spinner />;
   }
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you Sure you Wanted to delete that blog ?")) {
+      try {
+        setLoading(true);
+        await deleteDoc(doc(db, "blogs", id));
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   console.log("blogs", blogs);
 
   return (
@@ -40,7 +52,11 @@ const Home = ({ setActive, user }) => {
           <div className="row mx-0">
             <h2>Trending</h2>
             <div className="col-md-8">
-              <BlogSection blogs={blogs} user={user} />
+              <BlogSection
+                blogs={blogs}
+                user={user}
+                handleDelete={handleDelete}
+              />
             </div>
             <div className="col-md-3">
               <h2>Tags</h2>
