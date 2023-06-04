@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import transitions from "bootstrap";
 
 const Header = ({ active, setActive, user, handleLogout }) => {
   const userId = user?.uid;
@@ -7,7 +8,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid bg-faded padding-media">
         <div className="container padding-media">
-          <nav className="navbar narbar-toggleable-md navbar-light">
+          <nav className="navbar navbar-toggleable-md navbar-light">
             <button
               className="navbar-toggler mt-3"
               type="button"
@@ -20,11 +21,11 @@ const Header = ({ active, setActive, user, handleLogout }) => {
             >
               <span className="fa fa-bars"></span>
             </button>
-            <div className="collapse navbar-collapse">
-              <ul
-                className="navbar-nav me-auto mb-2 mb-lg-0"
-                id="navbarSupportedContent"
-              >
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <Link to="/" style={{ textDecoration: "none" }}>
                   <li
                     className={`nav-item nav-link ${
@@ -35,6 +36,17 @@ const Header = ({ active, setActive, user, handleLogout }) => {
                     Home
                   </li>
                 </Link>
+                <Link to="/blogs" style={{ textDecoration: "none" }}>
+                  <li
+                    className={`nav-item nav-link ${
+                      active === "blogs" ? "active" : ""
+                    }`}
+                    onClick={() => setActive("blogs")}
+                  >
+                    Blogs
+                  </li>
+                </Link>
+
                 <Link to="/create" style={{ textDecoration: "none" }}>
                   <li
                     className={`nav-item nav-link ${
@@ -45,6 +57,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
                     Create
                   </li>
                 </Link>
+
                 <Link to="/about" style={{ textDecoration: "none" }}>
                   <li
                     className={`nav-item nav-link ${
@@ -66,7 +79,7 @@ const Header = ({ active, setActive, user, handleLogout }) => {
                           alt="logo"
                           style={{
                             width: "30px",
-                            heigth: "30px",
+                            height: "30px",
                             borderRadius: "50%",
                             marginTop: "12px",
                           }}
