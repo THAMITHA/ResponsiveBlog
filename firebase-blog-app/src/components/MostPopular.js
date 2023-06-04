@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-const MostPopular = ({ blogs }) => {
+const MostPopular = ({ blogs, title}) => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="blog-heading text-start pt-3 py-2 md-4">Most Popular</div>
+      <div className="blog-heading text-start pt-3 py-2 md-4">{title}</div>
       {blogs?.map((item) => (
         <div
           className="row pb-3"
@@ -19,7 +19,7 @@ const MostPopular = ({ blogs }) => {
               className="most-popular-img"
             />
           </div>
-          <div className="col-5 padding">
+          <div className="col-7 padding">
             <div className="text-start most-popular-font">{item.title}</div>
             <div className="text-start most-popular-font-meta">
               {item.timestamp.toDate().toDateString()}

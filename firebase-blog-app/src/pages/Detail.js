@@ -1,12 +1,28 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
+import Tags from "../components/Tags";
+import MostPopular from "../components/MostPopular";
 
 const Detail = ({ setActive }) => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
+  const [blogs, setBlogs] = useState([]);
+  const [tags, setTags] = useState([]);
 
+  useEffect(() => {
+    const getBlogData = async () => {
+      const blogRef = collection(db, "blogs");
+      const blogs = await getDocs(blogRef);
+      setBlogs(blogs.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      let tags = [];
+      blogs.docs.map((doc) => tags.push(...doc.get("tags")));
+      let uniqueTags = [...new Set(tags)];
+      setTags(uniqueTags);
+    };
+    getBlogData();
+  }, []);
   useEffect(() => {
     id && getBlogDetail();
   }, [id]);
@@ -41,8 +57,8 @@ const Detail = ({ setActive }) => {
               <p className="text-start">{blog?.description}</p>
             </div>
             <div className="col-md-3">
-              <h2>Tags</h2>
-              <h2>Most Popular</h2>
+              <Tags tags={tags} />
+              <MostPopular blogs={blogs}/>
             </div>
           </div>
         </div>
