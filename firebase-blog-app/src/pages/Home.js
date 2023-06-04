@@ -4,18 +4,26 @@ import { db } from "../firebase";
 import BlogSection from "../components/BlogSection";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
+import Tags from "../components/Tags";
 
 const Home = ({ setActive, user }) => {
   const [loading, setLoading] = useState(true);
   const [blogs, setBlogs] = useState([]);
+  const [tags, setTags] = useState([]);
+
   useEffect(() => {
     const unsub = onSnapshot(
       collection(db, "blogs"),
       (snapshot) => {
         let list = [];
+        let tags = [];
         snapshot.docs.forEach((doc) => {
+          tags.push(...doc.get("tags"));
           list.push({ id: doc.id, ...doc.data() });
         });
+
+        const uniqueTags = [...new Set(tags)];
+        setTags(uniqueTags);
         setBlogs(list);
         setLoading(false);
         setActive("home");
@@ -61,7 +69,7 @@ const Home = ({ setActive, user }) => {
               />
             </div>
             <div className="col-md-3">
-              <h2>Tags</h2>
+              <Tags tags={tags}/>
               <h2>Most Popular</h2>
             </div>
           </div>
